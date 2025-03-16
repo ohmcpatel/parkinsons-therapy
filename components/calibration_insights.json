@@ -1,0 +1,870 @@
+{
+  "exercise_vs_confidence": [
+    {
+      "exercise": "false",
+      "confidence_score": 0.5045283018867924
+    },
+    {
+      "exercise": "true",
+      "confidence_score": 0.8504
+    }
+  ],
+  "sleep_vs_confidence": [
+    {
+      "sleep_bucket": "5-6",
+      "confidence_score": 0.4829629629629629
+    },
+    {
+      "sleep_bucket": "7-8",
+      "confidence_score": 0.729122807017544
+    },
+    {
+      "sleep_bucket": "9-10",
+      "confidence_score": 0.91625
+    },
+    {
+      "sleep_bucket": "nan",
+      "confidence_score": 0.0
+    }
+  ],
+  "radial_confidence": [
+    {
+      "radial_error": 0.18,
+      "confidence_score": 0.75
+    },
+    {
+      "radial_error": 0.13,
+      "confidence_score": 0.82
+    },
+    {
+      "radial_error": 0.42,
+      "confidence_score": 0.52
+    },
+    {
+      "radial_error": 0.39,
+      "confidence_score": 0.57
+    },
+    {
+      "radial_error": 0.46,
+      "confidence_score": 0.45
+    },
+    {
+      "radial_error": 0.4,
+      "confidence_score": 0.56
+    },
+    {
+      "radial_error": 0.15,
+      "confidence_score": 0.8
+    },
+    {
+      "radial_error": 0.33,
+      "confidence_score": 0.63
+    },
+    {
+      "radial_error": 0.1,
+      "confidence_score": 0.84
+    },
+    {
+      "radial_error": 0.43,
+      "confidence_score": 0.51
+    },
+    {
+      "radial_error": 0.09,
+      "confidence_score": 0.91
+    },
+    {
+      "radial_error": 0.17,
+      "confidence_score": 0.77
+    },
+    {
+      "radial_error": 0.0,
+      "confidence_score": 0.0
+    },
+    {
+      "radial_error": 0.1,
+      "confidence_score": 0.84
+    },
+    {
+      "radial_error": 0.33,
+      "confidence_score": 0.59
+    },
+    {
+      "radial_error": 0.36,
+      "confidence_score": 0.57
+    },
+    {
+      "radial_error": 0.09,
+      "confidence_score": 0.9
+    },
+    {
+      "radial_error": 0.1,
+      "confidence_score": 0.8
+    },
+    {
+      "radial_error": 0.5,
+      "confidence_score": 0.35
+    },
+    {
+      "radial_error": 0.38,
+      "confidence_score": 0.55
+    },
+    {
+      "radial_error": 0.08,
+      "confidence_score": 0.91
+    },
+    {
+      "radial_error": 0.42,
+      "confidence_score": 0.54
+    },
+    {
+      "radial_error": 0.3,
+      "confidence_score": 0.6
+    },
+    {
+      "radial_error": 0.13,
+      "confidence_score": 0.82
+    },
+    {
+      "radial_error": 0.48,
+      "confidence_score": 0.43
+    },
+    {
+      "radial_error": 0.33,
+      "confidence_score": 0.63
+    },
+    {
+      "radial_error": 0.47,
+      "confidence_score": 0.4
+    },
+    {
+      "radial_error": 0.33,
+      "confidence_score": 0.61
+    },
+    {
+      "radial_error": 0.36,
+      "confidence_score": 0.58
+    },
+    {
+      "radial_error": 0.46,
+      "confidence_score": 0.48
+    },
+    {
+      "radial_error": 0.36,
+      "confidence_score": 0.57
+    },
+    {
+      "radial_error": 0.09,
+      "confidence_score": 0.86
+    },
+    {
+      "radial_error": 0.17,
+      "confidence_score": 0.78
+    },
+    {
+      "radial_error": 0.08,
+      "confidence_score": 0.93
+    },
+    {
+      "radial_error": 0.34,
+      "confidence_score": 0.61
+    },
+    {
+      "radial_error": 0.42,
+      "confidence_score": 0.5
+    },
+    {
+      "radial_error": 0.12,
+      "confidence_score": 0.87
+    },
+    {
+      "radial_error": 0.32,
+      "confidence_score": 0.62
+    },
+    {
+      "radial_error": 0.35,
+      "confidence_score": 0.6
+    },
+    {
+      "radial_error": 0.11,
+      "confidence_score": 0.85
+    },
+    {
+      "radial_error": 0.35,
+      "confidence_score": 0.6
+    },
+    {
+      "radial_error": 0.44,
+      "confidence_score": 0.53
+    },
+    {
+      "radial_error": 0.45,
+      "confidence_score": 0.46
+    },
+    {
+      "radial_error": 0.34,
+      "confidence_score": 0.6
+    },
+    {
+      "radial_error": 0.15,
+      "confidence_score": 0.79
+    },
+    {
+      "radial_error": 0.07,
+      "confidence_score": 0.94
+    },
+    {
+      "radial_error": 0.05,
+      "confidence_score": 0.92
+    },
+    {
+      "radial_error": 0.09,
+      "confidence_score": 0.88
+    },
+    {
+      "radial_error": 0.0,
+      "confidence_score": 0.0
+    },
+    {
+      "radial_error": 0.08,
+      "confidence_score": 0.92
+    },
+    {
+      "radial_error": 0.32,
+      "confidence_score": 0.61
+    },
+    {
+      "radial_error": 0.0,
+      "confidence_score": 0.0
+    },
+    {
+      "radial_error": 0.13,
+      "confidence_score": 0.8
+    },
+    {
+      "radial_error": 0.41,
+      "confidence_score": 0.55
+    },
+    {
+      "radial_error": 0.1,
+      "confidence_score": 0.88
+    },
+    {
+      "radial_error": 0.34,
+      "confidence_score": 0.63
+    },
+    {
+      "radial_error": 0.44,
+      "confidence_score": 0.5
+    },
+    {
+      "radial_error": 0.1,
+      "confidence_score": 0.87
+    },
+    {
+      "radial_error": 0.14,
+      "confidence_score": 0.82
+    },
+    {
+      "radial_error": 0.46,
+      "confidence_score": 0.44
+    },
+    {
+      "radial_error": 0.16,
+      "confidence_score": 0.79
+    },
+    {
+      "radial_error": 0.12,
+      "confidence_score": 0.85
+    },
+    {
+      "radial_error": 0.34,
+      "confidence_score": 0.62
+    },
+    {
+      "radial_error": 0.08,
+      "confidence_score": 0.9
+    },
+    {
+      "radial_error": 0.44,
+      "confidence_score": 0.52
+    },
+    {
+      "radial_error": 0.08,
+      "confidence_score": 0.92
+    },
+    {
+      "radial_error": 0.12,
+      "confidence_score": 0.83
+    },
+    {
+      "radial_error": 0.18,
+      "confidence_score": 0.78
+    },
+    {
+      "radial_error": 0.08,
+      "confidence_score": 0.92
+    },
+    {
+      "radial_error": 0.15,
+      "confidence_score": 0.81
+    },
+    {
+      "radial_error": 0.43,
+      "confidence_score": 0.49
+    },
+    {
+      "radial_error": 0.1,
+      "confidence_score": 0.89
+    },
+    {
+      "radial_error": 0.44,
+      "confidence_score": 0.5
+    },
+    {
+      "radial_error": 0.42,
+      "confidence_score": 0.49
+    },
+    {
+      "radial_error": 0.31,
+      "confidence_score": 0.59
+    },
+    {
+      "radial_error": 0.35,
+      "confidence_score": 0.62
+    },
+    {
+      "radial_error": 0.1,
+      "confidence_score": 0.89
+    },
+    {
+      "radial_error": 0.43,
+      "confidence_score": 0.52
+    },
+    {
+      "radial_error": 0.13,
+      "confidence_score": 0.81
+    },
+    {
+      "radial_error": 0.18,
+      "confidence_score": 0.76
+    },
+    {
+      "radial_error": 0.07,
+      "confidence_score": 0.93
+    },
+    {
+      "radial_error": 0.33,
+      "confidence_score": 0.64
+    },
+    {
+      "radial_error": 0.14,
+      "confidence_score": 0.81
+    },
+    {
+      "radial_error": 0.47,
+      "confidence_score": 0.38
+    },
+    {
+      "radial_error": 0.43,
+      "confidence_score": 0.51
+    },
+    {
+      "radial_error": 0.06,
+      "confidence_score": 0.97
+    },
+    {
+      "radial_error": 0.31,
+      "confidence_score": 0.62
+    },
+    {
+      "radial_error": 0.16,
+      "confidence_score": 0.78
+    },
+    {
+      "radial_error": 0.49,
+      "confidence_score": 0.41
+    },
+    {
+      "radial_error": 0.2,
+      "confidence_score": 0.68
+    },
+    {
+      "radial_error": 0.44,
+      "confidence_score": 0.5
+    },
+    {
+      "radial_error": 0.07,
+      "confidence_score": 0.95
+    },
+    {
+      "radial_error": 0.45,
+      "confidence_score": 0.4
+    },
+    {
+      "radial_error": 0.45,
+      "confidence_score": 0.47
+    },
+    {
+      "radial_error": 0.07,
+      "confidence_score": 0.94
+    },
+    {
+      "radial_error": 0.17,
+      "confidence_score": 0.79
+    },
+    {
+      "radial_error": 0.12,
+      "confidence_score": 0.86
+    },
+    {
+      "radial_error": 0.12,
+      "confidence_score": 0.83
+    },
+    {
+      "radial_error": 0.11,
+      "confidence_score": 0.83
+    },
+    {
+      "radial_error": 0.11,
+      "confidence_score": 0.85
+    },
+    {
+      "radial_error": 0.32,
+      "confidence_score": 0.6
+    },
+    {
+      "radial_error": 0.09,
+      "confidence_score": 0.88
+    },
+    {
+      "radial_error": 0.45,
+      "confidence_score": 0.47
+    }
+  ],
+  "mood_vs_confidence": [
+    {
+      "mood": 3,
+      "confidence_score": 0.0
+    },
+    {
+      "mood": 4,
+      "confidence_score": 0.46956521739130436
+    },
+    {
+      "mood": 5,
+      "confidence_score": 0.47750000000000004
+    },
+    {
+      "mood": 6,
+      "confidence_score": 0.606
+    },
+    {
+      "mood": 7,
+      "confidence_score": 0.7718181818181818
+    },
+    {
+      "mood": 8,
+      "confidence_score": 0.8352380952380952
+    },
+    {
+      "mood": 9,
+      "confidence_score": 0.9161111111111112
+    }
+  ],
+  "bigwrite_vs_time": [
+    {
+      "date": "2024-03-16T12:00:00Z",
+      "confidence_score": 0.75
+    },
+    {
+      "date": "2024-03-30T12:00:00Z",
+      "confidence_score": 0.74
+    },
+    {
+      "date": "2024-04-01T12:00:00Z",
+      "confidence_score": 0.73
+    },
+    {
+      "date": "2024-04-10T12:00:00Z",
+      "confidence_score": 0.73
+    },
+    {
+      "date": "2024-04-15T12:00:00Z",
+      "confidence_score": 0.72
+    },
+    {
+      "date": "2024-05-01T12:00:00Z",
+      "confidence_score": 0.71
+    },
+    {
+      "date": "2024-05-05T12:00:00Z",
+      "confidence_score": 0.72
+    },
+    {
+      "date": "2024-05-15T12:00:00Z",
+      "confidence_score": 0.7
+    },
+    {
+      "date": "2024-06-01T12:00:00Z",
+      "confidence_score": 0.69
+    },
+    {
+      "date": "2024-06-10T12:00:00Z",
+      "confidence_score": 0.71
+    },
+    {
+      "date": "2024-06-15T12:00:00Z",
+      "confidence_score": 0.68
+    },
+    {
+      "date": "2024-07-01T12:00:00Z",
+      "confidence_score": 0.67
+    },
+    {
+      "date": "2024-07-05T12:00:00Z",
+      "confidence_score": 0.7
+    },
+    {
+      "date": "2024-07-15T12:00:00Z",
+      "confidence_score": 0.66
+    },
+    {
+      "date": "2024-08-01T12:00:00Z",
+      "confidence_score": 0.65
+    },
+    {
+      "date": "2024-08-10T12:00:00Z",
+      "confidence_score": 0.69
+    },
+    {
+      "date": "2024-08-15T12:00:00Z",
+      "confidence_score": 0.64
+    },
+    {
+      "date": "2024-09-01T12:00:00Z",
+      "confidence_score": 0.63
+    },
+    {
+      "date": "2024-09-05T12:00:00Z",
+      "confidence_score": 0.68
+    },
+    {
+      "date": "2024-09-15T12:00:00Z",
+      "confidence_score": 0.62
+    },
+    {
+      "date": "2024-10-01T12:00:00Z",
+      "confidence_score": 0.61
+    },
+    {
+      "date": "2024-10-10T12:00:00Z",
+      "confidence_score": 0.67
+    },
+    {
+      "date": "2024-10-15T12:00:00Z",
+      "confidence_score": 0.6
+    },
+    {
+      "date": "2024-11-01T12:00:00Z",
+      "confidence_score": 0.59
+    },
+    {
+      "date": "2024-11-05T12:00:00Z",
+      "confidence_score": 0.66
+    },
+    {
+      "date": "2024-11-15T12:00:00Z",
+      "confidence_score": 0.58
+    },
+    {
+      "date": "2024-12-01T12:00:00Z",
+      "confidence_score": 0.57
+    },
+    {
+      "date": "2024-12-10T12:00:00Z",
+      "confidence_score": 0.65
+    },
+    {
+      "date": "2024-12-15T12:00:00Z",
+      "confidence_score": 0.56
+    },
+    {
+      "date": "2025-01-01T12:00:00Z",
+      "confidence_score": 0.55
+    },
+    {
+      "date": "2025-01-05T12:00:00Z",
+      "confidence_score": 0.64
+    },
+    {
+      "date": "2025-01-15T12:00:00Z",
+      "confidence_score": 0.54
+    },
+    {
+      "date": "2025-02-01T12:00:00Z",
+      "confidence_score": 0.53
+    },
+    {
+      "date": "2025-02-10T12:00:00Z",
+      "confidence_score": 0.63
+    },
+    {
+      "date": "2025-02-15T12:00:00Z",
+      "confidence_score": 0.52
+    },
+    {
+      "date": "2025-02-20T12:00:00Z",
+      "confidence_score": 0.625
+    },
+    {
+      "date": "2025-02-25T12:00:00Z",
+      "confidence_score": 0.63
+    },
+    {
+      "date": "2025-03-01T12:00:00Z",
+      "confidence_score": 0.635
+    },
+    {
+      "date": "2025-03-06T12:00:00Z",
+      "confidence_score": 0.64
+    },
+    {
+      "date": "2025-03-07T12:00:00Z",
+      "confidence_score": 0.645
+    },
+    {
+      "date": "2025-03-08T12:00:00Z",
+      "confidence_score": 0.65
+    },
+    {
+      "date": "2025-03-09T12:00:00Z",
+      "confidence_score": 0.655
+    },
+    {
+      "date": "2025-03-10T12:00:00Z",
+      "confidence_score": 0.66
+    },
+    {
+      "date": "2025-03-11T12:00:00Z",
+      "confidence_score": 0.665
+    },
+    {
+      "date": "2025-03-12T12:00:00Z",
+      "confidence_score": 0.67
+    },
+    {
+      "date": "2025-03-13T12:00:00Z",
+      "confidence_score": 0.675
+    },
+    {
+      "date": "2025-03-14T12:00:00Z",
+      "confidence_score": 0.68
+    },
+    {
+      "date": "2025-03-15T12:00:00Z",
+      "confidence_score": 0.685
+    },
+    {
+      "date": "2025-03-16T12:00:00Z",
+      "confidence_score": 0.69
+    }
+  ],
+  "score_vs_time": [
+    {
+      "date": "2024-03-16T12:00:00Z",
+      "confidence_score": 0.78
+    },
+    {
+      "date": "2024-03-30T12:00:00Z",
+      "confidence_score": 0.72
+    },
+    {
+      "date": "2024-04-01T12:00:00Z",
+      "confidence_score": 0.74
+    },
+    {
+      "date": "2024-04-10T12:00:00Z",
+      "confidence_score": 0.69
+    },
+    {
+      "date": "2024-04-15T12:00:00Z",
+      "confidence_score": 0.74
+    },
+    {
+      "date": "2024-05-01T12:00:00Z",
+      "confidence_score": 0.68
+    },
+    {
+      "date": "2024-05-05T12:00:00Z",
+      "confidence_score": 0.76
+    },
+    {
+      "date": "2024-05-15T12:00:00Z",
+      "confidence_score": 0.69
+    },
+    {
+      "date": "2024-06-01T12:00:00Z",
+      "confidence_score": 0.74
+    },
+    {
+      "date": "2024-06-10T12:00:00Z",
+      "confidence_score": 0.69
+    },
+    {
+      "date": "2024-06-15T12:00:00Z",
+      "confidence_score": 0.71
+    },
+    {
+      "date": "2024-07-01T12:00:00Z",
+      "confidence_score": 0.63
+    },
+    {
+      "date": "2024-07-05T12:00:00Z",
+      "confidence_score": 0.71
+    },
+    {
+      "date": "2024-07-15T12:00:00Z",
+      "confidence_score": 0.63
+    },
+    {
+      "date": "2024-08-01T12:00:00Z",
+      "confidence_score": 0.67
+    },
+    {
+      "date": "2024-08-10T12:00:00Z",
+      "confidence_score": 0.68
+    },
+    {
+      "date": "2024-08-15T12:00:00Z",
+      "confidence_score": 0.68
+    },
+    {
+      "date": "2024-09-01T12:00:00Z",
+      "confidence_score": 0.61
+    },
+    {
+      "date": "2024-09-05T12:00:00Z",
+      "confidence_score": 0.71
+    },
+    {
+      "date": "2024-09-15T12:00:00Z",
+      "confidence_score": 0.61
+    },
+    {
+      "date": "2024-10-01T12:00:00Z",
+      "confidence_score": 0.66
+    },
+    {
+      "date": "2024-10-10T12:00:00Z",
+      "confidence_score": 0.63
+    },
+    {
+      "date": "2024-10-15T12:00:00Z",
+      "confidence_score": 0.62
+    },
+    {
+      "date": "2024-11-01T12:00:00Z",
+      "confidence_score": 0.56
+    },
+    {
+      "date": "2024-11-05T12:00:00Z",
+      "confidence_score": 0.67
+    },
+    {
+      "date": "2024-11-15T12:00:00Z",
+      "confidence_score": 0.56
+    },
+    {
+      "date": "2024-12-01T12:00:00Z",
+      "confidence_score": 0.6
+    },
+    {
+      "date": "2024-12-10T12:00:00Z",
+      "confidence_score": 0.64
+    },
+    {
+      "date": "2024-12-15T12:00:00Z",
+      "confidence_score": 0.6
+    },
+    {
+      "date": "2025-01-01T12:00:00Z",
+      "confidence_score": 0.53
+    },
+    {
+      "date": "2025-01-05T12:00:00Z",
+      "confidence_score": 0.67
+    },
+    {
+      "date": "2025-01-15T12:00:00Z",
+      "confidence_score": 0.53
+    },
+    {
+      "date": "2025-02-01T12:00:00Z",
+      "confidence_score": 0.58
+    },
+    {
+      "date": "2025-02-10T12:00:00Z",
+      "confidence_score": 0.59
+    },
+    {
+      "date": "2025-02-15T12:00:00Z",
+      "confidence_score": 0.54
+    },
+    {
+      "date": "2025-02-20T12:00:00Z",
+      "confidence_score": 0.595
+    },
+    {
+      "date": "2025-02-25T12:00:00Z",
+      "confidence_score": 0.64
+    },
+    {
+      "date": "2025-03-01T12:00:00Z",
+      "confidence_score": 0.615
+    },
+    {
+      "date": "2025-03-06T12:00:00Z",
+      "confidence_score": 0.67
+    },
+    {
+      "date": "2025-03-07T12:00:00Z",
+      "confidence_score": 0.635
+    },
+    {
+      "date": "2025-03-08T12:00:00Z",
+      "confidence_score": 0.69
+    },
+    {
+      "date": "2025-03-09T12:00:00Z",
+      "confidence_score": 0.635
+    },
+    {
+      "date": "2025-03-10T12:00:00Z",
+      "confidence_score": 0.67
+    },
+    {
+      "date": "2025-03-11T12:00:00Z",
+      "confidence_score": 0.635
+    },
+    {
+      "date": "2025-03-12T12:00:00Z",
+      "confidence_score": 0.69
+    },
+    {
+      "date": "2025-03-13T12:00:00Z",
+      "confidence_score": 0.635
+    },
+    {
+      "date": "2025-03-14T12:00:00Z",
+      "confidence_score": 0.71
+    },
+    {
+      "date": "2025-03-15T12:00:00Z",
+      "confidence_score": 0.675
+    },
+    {
+      "date": "2025-03-16T12:00:00Z",
+      "confidence_score": 0.74
+    }
+  ]
+}

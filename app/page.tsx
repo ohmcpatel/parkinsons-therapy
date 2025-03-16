@@ -14,9 +14,7 @@ export default function Home() {
   return (
     <div className="container mx-auto py-8 px-4">
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold tracking-tight mb-4">
-          Parkinson's Recovery Therapy
-        </h1>
+        <h1 className="text-4xl font-bold tracking-tight mb-4">Tremor Trace</h1>
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
           Track your progress and improve your motor skills with our specialized
           therapy tools.
@@ -24,26 +22,6 @@ export default function Home() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card>
-          <CardHeader>
-            <Image className="h-8 w-8 mb-2 text-primary" />
-            <CardTitle>Upload Photos</CardTitle>
-            <CardDescription>
-              Upload photos to use as templates for your drawing exercises.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground">
-              Easily upload photos via drag-and-drop or file selection.
-            </p>
-          </CardContent>
-          <CardFooter>
-            <Link href="/upload" className="w-full">
-              <Button className="w-full">Upload Photos</Button>
-            </Link>
-          </CardFooter>
-        </Card>
-
         <Card>
           <CardHeader>
             <Image className="h-8 w-8 mb-2 text-primary" />
@@ -80,6 +58,26 @@ export default function Home() {
           <CardFooter>
             <Link href="/drawing" className="w-full">
               <Button className="w-full">Start Drawing</Button>
+            </Link>
+          </CardFooter>
+        </Card>
+        <Card>
+          <CardHeader>
+            <Image className="h-8 w-8 mb-2 text-primary" />
+            <CardTitle>Big Write</CardTitle>
+            <CardDescription>
+              A training tool that helps parkinson's patients deal with
+              micrographia.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground">
+              Fix tremor induced small writing habits with Big Write.
+            </p>
+          </CardContent>
+          <CardFooter>
+            <Link href="/micro" className="w-full">
+              <Button className="w-full">Big Write</Button>
             </Link>
           </CardFooter>
         </Card>

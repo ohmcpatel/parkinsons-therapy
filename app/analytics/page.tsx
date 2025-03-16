@@ -9,6 +9,8 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle, Calendar } from "lucide-react";
 import { format, subDays } from "date-fns";
@@ -27,13 +29,19 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  ScatterChart,
+  Scatter,
 } from "recharts";
+import Graphs from "@/components/Graphs";
 
 interface CalibrationResult {
   date: string;
   score: number;
   feedback: string;
 }
+
+// Importing the JSON file directly
+import insights from "../../components/calibration_insights.json";
 
 export default function AnalyticsPage() {
   const [results, setResults] = useState<CalibrationResult[]>([]);
@@ -94,8 +102,8 @@ export default function AnalyticsPage() {
   };
 
   // Filter results based on selected time range
-  const getFilteredResults = () => {
-    if (results.length === 0) return [];
+  const getFilteredResults = (data: any[]) => {
+    if (data.length === 0) return [];
 
     const now = new Date();
     let cutoffDate: Date;
@@ -105,25 +113,25 @@ export default function AnalyticsPage() {
     } else if (timeRange === "month") {
       cutoffDate = subDays(now, 30);
     } else {
-      return results;
+      return data;
     }
 
-    return results.filter((result) => new Date(result.date) >= cutoffDate);
+    return data.filter((result) => new Date(result.date) >= cutoffDate);
   };
 
   // Format data for charts
-  const getChartData = () => {
-    const filteredResults = getFilteredResults();
+  const getChartData = (data: any[]) => {
+    const filteredResults = getFilteredResults(data);
 
     return filteredResults.map((result) => ({
       date: format(new Date(result.date), "MMM dd"),
-      score: result.score,
+      score: result.confidence_score || result.score,
     }));
   };
 
   // Calculate statistics
-  const getStatistics = () => {
-    const filteredResults = getFilteredResults();
+  const getStatistics = (data: any[]) => {
+    const filteredResults = getFilteredResults(data);
 
     if (filteredResults.length === 0) {
       return {
@@ -134,15 +142,20 @@ export default function AnalyticsPage() {
       };
     }
 
-    const scores = filteredResults.map((result) => result.score);
+    const scores = filteredResults.map(
+      (result) => result.confidence_score || result.score
+    );
     const average =
       scores.reduce((sum, score) => sum + score, 0) / scores.length;
     const highest = Math.max(...scores);
     const lowest = Math.min(...scores);
 
     // Calculate improvement (difference between first and last score)
-    const firstScore = filteredResults[0].score;
-    const lastScore = filteredResults[filteredResults.length - 1].score;
+    const firstScore =
+      filteredResults[0].confidence_score || filteredResults[0].score;
+    const lastScore =
+      filteredResults[filteredResults.length - 1].confidence_score ||
+      filteredResults[filteredResults.length - 1].score;
     const improvement = lastScore - firstScore;
 
     return {
@@ -153,8 +166,10 @@ export default function AnalyticsPage() {
     };
   };
 
-  const chartData = getChartData();
-  const statistics = getStatistics();
+  const scoreChartData = getChartData(insights.score_vs_time);
+  const bigwriteChartData = getChartData(insights.bigwrite_vs_time);
+  const scoreStatistics = getStatistics(insights.score_vs_time);
+  const bigwriteStatistics = getStatistics(insights.bigwrite_vs_time);
 
   return (
     <div className="container mx-auto py-8 px-4">
@@ -199,7 +214,9 @@ export default function AnalyticsPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{statistics.average}</div>
+                <div className="text-2xl font-bold">
+                  {scoreStatistics.average}
+                </div>
               </CardContent>
             </Card>
             <Card>
@@ -209,7 +226,9 @@ export default function AnalyticsPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{statistics.highest}</div>
+                <div className="text-2xl font-bold">
+                  {scoreStatistics.highest}
+                </div>
               </CardContent>
             </Card>
             <Card>
@@ -219,7 +238,9 @@ export default function AnalyticsPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{statistics.lowest}</div>
+                <div className="text-2xl font-bold">
+                  {scoreStatistics.lowest}
+                </div>
               </CardContent>
             </Card>
             <Card>
@@ -231,61 +252,84 @@ export default function AnalyticsPage() {
               <CardContent>
                 <div
                   className={`text-2xl font-bold ${
-                    statistics.improvement >= 0
+                    scoreStatistics.improvement >= 0
                       ? "text-green-500"
                       : "text-red-500"
                   }`}
                 >
-                  {statistics.improvement >= 0 ? "+" : ""}
-                  {statistics.improvement}
+                  {scoreStatistics.improvement >= 0 ? "+" : ""}
+                  {scoreStatistics.improvement}
                 </div>
               </CardContent>
             </Card>
           </div>
 
-          <Card className="mb-6">
-            <CardHeader>
-              <CardTitle>Progress Over Time</CardTitle>
-              <CardDescription>
-                Your calibration test scores over time
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="h-[300px]">
-                <ChartContainer>
-                  <Chart>
+          <Tabs defaultValue="score" className="mb-6">
+            <TabsList className="mb-4">
+              <TabsTrigger value="score">Score vs Time</TabsTrigger>
+              <TabsTrigger value="bigwrite">BigWrite Over Time</TabsTrigger>
+            </TabsList>
+            <TabsContent value="score">
+              <Card className="mb-6">
+                <CardHeader>
+                  <CardTitle>Score vs Time</CardTitle>
+                  <CardDescription>
+                    Your calibration test scores over time
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="h-[300px]">
                     <ResponsiveContainer width="100%" height="100%">
-                      <LineChart
-                        data={chartData}
-                        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                      >
+                      <ScatterChart>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="date" tick={{ fontSize: 12 }} />
-                        <YAxis
-                          domain={[50, 100]}
-                          tick={{ fontSize: 12 }}
-                          tickCount={6}
-                        />
+                        <YAxis domain={[0, 1]} tick={{ fontSize: 12 }} />
                         <Tooltip content={<ChartTooltip />} />
-                        <Line
-                          type="monotone"
-                          dataKey="score"
-                          name="Score"
-                          stroke="#3b82f6"
-                          strokeWidth={2}
-                          dot={{ r: 4 }}
-                          activeDot={{ r: 6 }}
+                        <Scatter
+                          data={scoreChartData.map((result) => ({
+                            date: result.date,
+                            confidence_score: result.score,
+                          }))}
+                          dataKey="confidence_score"
+                          fill="#8884d8"
                         />
-                      </LineChart>
+                      </ScatterChart>
                     </ResponsiveContainer>
-                  </Chart>
-                  <ChartLegend>
-                    <ChartLegendItem name="Score" color="#3b82f6" />
-                  </ChartLegend>
-                </ChartContainer>
-              </div>
-            </CardContent>
-          </Card>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+            <TabsContent value="bigwrite">
+              <Card className="mb-6">
+                <CardHeader>
+                  <CardTitle>BigWrite Over Time</CardTitle>
+                  <CardDescription>
+                    Your BigWrite test scores over time
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="h-[300px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <ScatterChart>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="date" tick={{ fontSize: 12 }} />
+                        <YAxis domain={[0, 1]} tick={{ fontSize: 12 }} />
+                        <Tooltip content={<ChartTooltip />} />
+                        <Scatter
+                          data={bigwriteChartData.map((result) => ({
+                            date: result.date,
+                            confidence_score: result.score,
+                          }))}
+                          dataKey="confidence_score"
+                          fill="#8884d8"
+                        />
+                      </ScatterChart>
+                    </ResponsiveContainer>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
 
           <Card>
             <CardHeader>
@@ -296,7 +340,7 @@ export default function AnalyticsPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {getFilteredResults()
+                {getFilteredResults(results)
                   .slice(-5)
                   .reverse()
                   .map((result, index) => (
@@ -323,6 +367,7 @@ export default function AnalyticsPage() {
           </Card>
         </>
       )}
+      <Graphs />
     </div>
   );
 }

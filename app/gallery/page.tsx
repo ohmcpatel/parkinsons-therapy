@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Pencil, X, Loader2 } from "lucide-react";
+import { Pencil, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import {
   Dialog,
@@ -14,81 +14,60 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 
-// Mock data for gallery images
-// In a real app, this would come from your database or storage service
-const mockImages = [
-  {
-    id: "1",
-    url: "/placeholder.svg?height=400&width=400",
-    name: "Sample Image 1",
-  },
-  {
-    id: "2",
-    url: "/placeholder.svg?height=400&width=400",
-    name: "Sample Image 2",
-  },
-  {
-    id: "3",
-    url: "/placeholder.svg?height=400&width=400",
-    name: "Sample Image 3",
-  },
-  {
-    id: "4",
-    url: "/placeholder.svg?height=400&width=400",
-    name: "Sample Image 4",
-  },
-  {
-    id: "5",
-    url: "/placeholder.svg?height=400&width=400",
-    name: "Sample Image 5",
-  },
-  {
-    id: "6",
-    url: "/placeholder.svg?height=400&width=400",
-    name: "Sample Image 6",
-  },
-];
-
 interface Image {
-  id: string;
-  url: string;
-  name: string;
+  docId?: string; // Not strictly needed, but you can keep for keys
+  originalFileName: string;
+  originalFileUrl: string;
+  uploadedAt?: any;
 }
 
 export default function GalleryPage() {
-  const [images, setImages] = useState<Image[]>([]);
-  const [loading, setLoading] = useState(true);
+  "use client";
+
+  // 1. Hard-code your images here
+  const images: Image[] = [
+    {
+      docId: "1",
+      originalFileName: "Image 1.png",
+      originalFileUrl: "/Image1.png",
+    },
+    {
+      docId: "2",
+      originalFileName: "Image 2.png",
+      originalFileUrl: "/Image2.png",
+    },
+    {
+      docId: "3",
+      originalFileName: "Image 3.png",
+      originalFileUrl: "/Image3.png",
+    },
+    {
+      docId: "4",
+      originalFileName: "Image 4.png",
+      originalFileUrl: "/Image4.png",
+    },
+    {
+      docId: "5",
+      originalFileName: "Image 5.png",
+      originalFileUrl: "/Image5.png",
+    },
+    {
+      docId: "6",
+      originalFileName: "Image 6.png",
+      originalFileUrl: "/Image6.png",
+    },
+  ];
+
   const [selectedImage, setSelectedImage] = useState<Image | null>(null);
   const router = useRouter();
 
-  useEffect(() => {
-    // Simulate loading images from an API
-    const fetchImages = async () => {
-      try {
-        // In a real app, you would fetch images from your API
-        // const response = await fetch('/api/images');
-        // const data = await response.json();
-        // setImages(data);
-
-        // Using mock data for demonstration
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        setImages(mockImages);
-      } catch (error) {
-        console.error("Error fetching images:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchImages();
-  }, []);
-
+  // 2. If you want a "draw" feature, pass the image URL to a drawing page
   const handleDrawClick = (image: Image) => {
-    // Store the selected image in localStorage or state management
-    localStorage.setItem("selectedImageForDrawing", JSON.stringify(image));
-    router.push("/drawing");
+    const encodedImageUrl = encodeURIComponent(image.originalFileUrl);
+    router.push(`/drawing?imageUrl=${encodedImageUrl}`);
   };
 
+  // 3. Open a dialog to preview the selected image
   const handleImageClick = (image: Image) => {
     setSelectedImage(image);
   };
@@ -97,36 +76,29 @@ export default function GalleryPage() {
     <div className="container mx-auto py-8 px-4">
       <h1 className="text-3xl font-bold mb-6">Photo Gallery</h1>
 
-      {loading ? (
-        <div className="flex justify-center items-center h-64">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
-          <span className="ml-2">Loading your photos...</span>
-        </div>
-      ) : images.length === 0 ? (
+      {/* 4. If you need an “empty” state, conditionally render it if images is empty */}
+      {!images || images.length === 0 ? (
         <Card>
           <CardContent className="flex flex-col items-center justify-center py-12">
             <div className="text-center">
               <h3 className="text-lg font-medium mb-2">No photos found</h3>
               <p className="text-sm text-muted-foreground mb-4">
-                Upload some photos to get started with your drawing exercises.
+                There are no photos to display.
               </p>
-              <Button onClick={() => router.push("/upload")}>
-                Upload Photos
-              </Button>
             </div>
           </CardContent>
         </Card>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {images.map((image) => (
-            <div key={image.id} className="group relative">
+            <div key={image.originalFileName} className="group relative">
               <div
                 className="aspect-square rounded-md overflow-hidden border cursor-pointer"
                 onClick={() => handleImageClick(image)}
               >
                 <img
-                  src={image.url || "/placeholder.svg"}
-                  alt={image.name}
+                  src={image.originalFileUrl}
+                  alt={image.originalFileName}
                   className="w-full h-full object-cover transition-transform group-hover:scale-105"
                 />
               </div>
@@ -144,28 +116,28 @@ export default function GalleryPage() {
                   Draw
                 </Button>
               </div>
-              <p className="text-xs truncate mt-1">{image.name}</p>
+              <p className="text-xs truncate mt-1">{image.originalFileName}</p>
             </div>
           ))}
         </div>
       )}
 
-      {/* Image Preview Dialog */}
+      {/* 5. Image Preview Dialog */}
       <Dialog
         open={!!selectedImage}
         onOpenChange={(open) => !open && setSelectedImage(null)}
       >
         <DialogContent className="sm:max-w-lg">
           <DialogHeader>
-            <DialogTitle>{selectedImage?.name}</DialogTitle>
+            <DialogTitle>{selectedImage?.originalFileName}</DialogTitle>
             <DialogDescription>
               Click the Draw button to use this image for your drawing exercise.
             </DialogDescription>
           </DialogHeader>
           <div className="flex justify-center">
             <img
-              src={selectedImage?.url || "/placeholder.svg"}
-              alt={selectedImage?.name}
+              src={selectedImage?.originalFileUrl}
+              alt={selectedImage?.originalFileName}
               className="max-h-[60vh] object-contain rounded-md"
             />
           </div>

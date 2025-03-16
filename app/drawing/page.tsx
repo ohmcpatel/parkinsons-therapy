@@ -1,7 +1,5 @@
 "use client";
 
-import type React from "react";
-
 import { useState, useEffect, useRef } from "react";
 import {
   Card,
@@ -12,9 +10,17 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Undo, Save, Trash2, ImageIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { Slider } from "@/components/ui/slider";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
 
 interface DrawingCanvasProps {
   imageUrl: string;
@@ -24,6 +30,7 @@ interface DrawingCanvasProps {
 
 function DrawingCanvas({ imageUrl, width, height }: DrawingCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasContainerRef = useRef<HTMLDivElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [context, setContext] = useState<CanvasRenderingContext2D | null>(null);
   const [strokeColor, setStrokeColor] = useState("#ff0000");
@@ -32,44 +39,55 @@ function DrawingCanvas({ imageUrl, width, height }: DrawingCanvasProps) {
   const [historyIndex, setHistoryIndex] = useState(-1);
   const { toast } = useToast();
 
-  // Initialize canvas and load background image
+  // Modal state for score display
+  const [showScoreModal, setShowScoreModal] = useState(false);
+  const [score, setScore] = useState(0);
+
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    const canvasContainer = canvasContainerRef.current;
+    if (!canvas || !canvasContainer) return;
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     setContext(ctx);
-
-    // Set canvas dimensions
     canvas.width = width;
     canvas.height = height;
 
-    // Load background image
+    // Load background image from the URL
     const img = new Image();
     img.crossOrigin = "anonymous";
     img.src = imageUrl;
     img.onload = () => {
+      // Draw background image (which is assumed to be a black line on white background)
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-      // Save initial state to history
+      // Save the initial state to history (for comparison later)
       const initialState = ctx.getImageData(0, 0, canvas.width, canvas.height);
       setDrawingHistory([initialState]);
       setHistoryIndex(0);
     };
   }, [imageUrl, width, height]);
 
-  // Handle drawing
+  const getCoordinates = (e: React.MouseEvent | React.TouchEvent) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return { offsetX: 0, offsetY: 0 };
+    let offsetX, offsetY;
+    if ("touches" in e) {
+      const rect = canvas.getBoundingClientRect();
+      offsetX = e.touches[0].clientX - rect.left;
+      offsetY = e.touches[0].clientY - rect.top;
+    } else {
+      offsetX = e.nativeEvent.offsetX;
+      offsetY = e.nativeEvent.offsetY;
+    }
+    return { offsetX, offsetY };
+  };
+
   const startDrawing = (e: React.MouseEvent | React.TouchEvent) => {
     if (!context) return;
-
     setIsDrawing(true);
-
-    // Get coordinates
     const { offsetX, offsetY } = getCoordinates(e);
-
-    // Start new path
     context.beginPath();
     context.moveTo(offsetX, offsetY);
     context.strokeStyle = strokeColor;
@@ -80,101 +98,55 @@ function DrawingCanvas({ imageUrl, width, height }: DrawingCanvasProps) {
 
   const draw = (e: React.MouseEvent | React.TouchEvent) => {
     if (!isDrawing || !context) return;
-
-    // Prevent scrolling on touch devices
     e.preventDefault();
-
-    // Get coordinates
     const { offsetX, offsetY } = getCoordinates(e);
-
-    // Draw line
     context.lineTo(offsetX, offsetY);
     context.stroke();
   };
 
   const stopDrawing = () => {
     if (!isDrawing || !context || !canvasRef.current) return;
-
     setIsDrawing(false);
     context.closePath();
-
-    // Save current state to history
     const newState = context.getImageData(
       0,
       0,
       canvasRef.current.width,
       canvasRef.current.height
     );
-
-    // Remove any states after current index
     const newHistory = drawingHistory.slice(0, historyIndex + 1);
-
     setDrawingHistory([...newHistory, newState]);
     setHistoryIndex(newHistory.length);
   };
 
-  // Helper function to get coordinates from mouse or touch event
-  const getCoordinates = (e: React.MouseEvent | React.TouchEvent) => {
-    const canvas = canvasRef.current;
-    if (!canvas) return { offsetX: 0, offsetY: 0 };
-
-    let offsetX, offsetY;
-
-    if ("touches" in e) {
-      // Touch event
-      const rect = canvas.getBoundingClientRect();
-      offsetX = e.touches[0].clientX - rect.left;
-      offsetY = e.touches[0].clientY - rect.top;
-    } else {
-      // Mouse event
-      offsetX = e.nativeEvent.offsetX;
-      offsetY = e.nativeEvent.offsetY;
-    }
-
-    return { offsetX, offsetY };
-  };
-
-  // Undo last drawing action
   const handleUndo = () => {
     if (historyIndex <= 0 || !context || !canvasRef.current) return;
-
     const newIndex = historyIndex - 1;
     setHistoryIndex(newIndex);
-
     const imageData = drawingHistory[newIndex];
     context.putImageData(imageData, 0, 0);
   };
 
-  // Clear canvas and reset to background image
   const handleClear = () => {
     if (!context || !canvasRef.current || historyIndex <= 0) return;
-
-    // Reset to initial state (background image only)
     const initialState = drawingHistory[0];
     context.putImageData(initialState, 0, 0);
-
     setDrawingHistory([initialState]);
     setHistoryIndex(0);
-
     toast({
       title: "Canvas cleared",
       description: "Your drawing has been cleared.",
     });
   };
 
-  // Save drawing
   const handleSave = () => {
     if (!canvasRef.current) return;
-
     try {
       const dataUrl = canvasRef.current.toDataURL("image/png");
-
-      // Create a temporary link and trigger download
       const link = document.createElement("a");
       link.download = "drawing.png";
       link.href = dataUrl;
       link.click();
-
       toast({
         title: "Drawing saved",
         description: "Your drawing has been saved as an image.",
@@ -186,6 +158,48 @@ function DrawingCanvas({ imageUrl, width, height }: DrawingCanvasProps) {
         variant: "destructive",
       });
     }
+  };
+
+  // Fast scoring: check every red pixel in the drawn canvas.
+  // If a red pixel (from your stroke) is drawn on a black background pixel, count it as correct.
+  // Otherwise (drawn on white), count as incorrect.
+  const handleSubmit = () => {
+    if (!canvasRef.current || drawingHistory.length === 0) return;
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    // Get the final drawing (background + strokes)
+    const drawnData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    // The initial background (assumed to have the stencil: black line on white)
+    const backgroundData = drawingHistory[0];
+
+    let correct = 0;
+    let incorrect = 0;
+
+    for (let i = 0; i < drawnData.data.length; i += 4) {
+      const r = drawnData.data[i];
+      const g = drawnData.data[i + 1];
+      const b = drawnData.data[i + 2];
+      // Simple threshold for red (your drawing stroke)
+      if (r > 200 && g < 50 && b < 50) {
+        const bgR = backgroundData.data[i];
+        const bgG = backgroundData.data[i + 1];
+        const bgB = backgroundData.data[i + 2];
+        // Assume background pixel is black if all RGB values are low
+        if (bgR < 50 && bgG < 50 && bgB < 50) {
+          correct++;
+        } else {
+          incorrect++;
+        }
+      }
+    }
+
+    // Calculate score percentage
+    const total = correct + incorrect;
+    const scoreValue = total > 0 ? Math.round((correct / total) * 100) : 0;
+    setScore(scoreValue);
+    setShowScoreModal(true);
   };
 
   return (
@@ -213,7 +227,10 @@ function DrawingCanvas({ imageUrl, width, height }: DrawingCanvasProps) {
           <Save className="h-4 w-4 mr-1" />
           Save
         </Button>
-
+        {/* Submit Button */}
+        <Button variant="outline" size="sm" onClick={handleSubmit}>
+          Submit
+        </Button>
         <div className="flex items-center ml-auto">
           <label htmlFor="stroke-color" className="mr-2 text-sm">
             Color:
@@ -226,7 +243,6 @@ function DrawingCanvas({ imageUrl, width, height }: DrawingCanvasProps) {
             className="w-8 h-8 rounded cursor-pointer"
           />
         </div>
-
         <div className="flex items-center ml-4 space-x-2">
           <label htmlFor="stroke-width" className="text-sm">
             Width:
@@ -243,8 +259,10 @@ function DrawingCanvas({ imageUrl, width, height }: DrawingCanvasProps) {
           <span className="text-sm">{strokeWidth}px</span>
         </div>
       </div>
-
-      <div className="border rounded-md overflow-hidden">
+      <div
+        className="border rounded-md overflow-hidden"
+        ref={canvasContainerRef}
+      >
         <canvas
           ref={canvasRef}
           onMouseDown={startDrawing}
@@ -258,21 +276,34 @@ function DrawingCanvas({ imageUrl, width, height }: DrawingCanvasProps) {
           style={{ cursor: "crosshair" }}
         />
       </div>
+      {showScoreModal && (
+        <Dialog
+          open={showScoreModal}
+          onOpenChange={() => setShowScoreModal(false)}
+        >
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Score</DialogTitle>
+              <DialogDescription>Your score is: {score}%</DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <Button onClick={() => setShowScoreModal(false)}>OK</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 }
 
 export default function DrawingPage() {
-  const [selectedImage, setSelectedImage] = useState<any>(null);
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { toast } = useToast();
+  const imageUrl = searchParams.get("imageUrl");
 
   useEffect(() => {
-    // Check if there's a selected image in localStorage
-    const storedImage = localStorage.getItem("selectedImageForDrawing");
-    if (storedImage) {
-      setSelectedImage(JSON.parse(storedImage));
-    } else {
+    if (!imageUrl) {
       toast({
         title: "No image selected",
         description: "Please select an image from the gallery first.",
@@ -280,28 +311,26 @@ export default function DrawingPage() {
       });
       router.push("/gallery");
     }
-  }, [router, toast]);
+  }, [imageUrl, router, toast]);
 
-  // Default canvas dimensions
   const canvasWidth = 800;
-  const canvasHeight = 600;
+  const canvasHeight = 800;
 
   return (
     <div className="container mx-auto py-8 px-4">
       <h1 className="text-3xl font-bold mb-6">Drawing Exercise</h1>
-
-      {selectedImage ? (
+      {imageUrl ? (
         <Card>
           <CardHeader>
             <CardTitle>Draw over the image</CardTitle>
             <CardDescription>
-              Use your finger or mouse to trace over the image. This exercise
-              helps improve fine motor control.
+              Use your finger or mouse to trace over the stencil image. This
+              exercise helps improve fine motor control.
             </CardDescription>
           </CardHeader>
           <CardContent>
             <DrawingCanvas
-              imageUrl={selectedImage.url}
+              imageUrl={imageUrl}
               width={canvasWidth}
               height={canvasHeight}
             />

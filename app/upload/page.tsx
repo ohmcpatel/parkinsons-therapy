@@ -1,7 +1,5 @@
 "use client";
 
-import type React from "react";
-
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
@@ -83,30 +81,32 @@ export default function UploadPage() {
     setIsUploading(true);
 
     try {
-      // Simulate upload delay
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      const uploadPromises = uploadedFiles.map(async (file) => {
+        const formData = new FormData();
+        formData.append("file", file);
 
-      // In a real app, you would upload the files to a server or Blob storage here
-      // For example, using Vercel Blob Storage:
-      // const uploadPromises = uploadedFiles.map(async (file) => {
-      //   const formData = new FormData();
-      //   formData.append("file", file);
-      //   const response = await fetch("/api/upload", {
-      //     method: "POST",
-      //     body: formData,
-      //   });
-      //   return response.json();
-      // });
-      // const results = await Promise.all(uploadPromises);
+        const response = await fetch("/api/uploadphoto", {
+          method: "POST",
+          body: formData,
+        });
+
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "Upload failed");
+
+        return data.fileUrl;
+      });
+
+      const uploadedUrls = await Promise.all(uploadPromises);
 
       toast({
         title: "Upload successful",
-        description: `${uploadedFiles.length} image(s) uploaded successfully.`,
+        description: `${uploadedUrls.length} image(s) uploaded successfully.`,
       });
 
       // Navigate to gallery after successful upload
       router.push("/gallery");
     } catch (error) {
+      console.error("Upload error:", error);
       toast({
         title: "Upload failed",
         description:
@@ -176,7 +176,7 @@ export default function UploadPage() {
                   <div key={index} className="relative group">
                     <div className="aspect-square rounded-md overflow-hidden border bg-muted">
                       <img
-                        src={URL.createObjectURL(file) || "/placeholder.svg"}
+                        src={URL.createObjectURL(file)}
                         alt={file.name}
                         className="w-full h-full object-cover"
                       />
